@@ -1,0 +1,33 @@
+---
+- name: update/upgrade apt packages
+  become: true
+  apt:
+      upgrade: yes
+      update_cache: yes
+      cache_valid_time: 86400 #24 hours
+
+- name: install apt-transport-https
+  become: true
+  apt:
+      upgrade: yes
+      update_cache: yes
+      cache_valid_time: 86400 #24 hours
+
+- name: install docker
+  command: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+- name: add deb repo
+  command: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+
+- name: apt update
+  apt: 
+      update_cache: yes
+
+- apt: 
+      name: docker-ce
+      state: present
+
+- name: log into dockerhub
+  docker_login:
+    username: {{secret_stuff}}
+    password: {{secret_stuff}}
