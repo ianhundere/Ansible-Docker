@@ -3,15 +3,19 @@
   become: true
   apt:
       upgrade: yes
-      update_cache: yes
-      cache_valid_time: 86400 #24 hours
 
 - name: install apt-transport-https
-  become: true
-  apt:
-      upgrade: yes
-      update_cache: yes
-      cache_valid_time: 86400 #24 hours
+  apt: 
+      name: apt-transport-https
+      state: present
+
+- name: install ca-certificates
+  apt: 
+      name: ca-certificates
+      state: present
+
+- name: look for software properties
+  command: curl software-properties-common
 
 - name: install docker
   command: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
